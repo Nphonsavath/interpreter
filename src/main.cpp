@@ -23,11 +23,16 @@ int main(int argc, char *argv[]) {
 	
 	for (auto c : file_contents) {
 		switch (c) { 
-			case '(': std::cout << "LEFT_PAREN ( null" << std::endl;
-			case ')': std::cout << "RIGHT_PAREN ) null" << std::endl;
+			case '(': 
+				std::cout << "LEFT_PAREN ( null" << std::endl;
+				break;
+			case ')': 
+				std::cout << "RIGHT_PAREN ) null" << std::endl;
+				break;
 		}
 	}
 	
+	std::cout << "EOF  null" << std::endl;
 
     } else {
         std::cerr << "Unknown command: " << command << std::endl;
