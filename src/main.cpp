@@ -13,6 +13,7 @@ int main(int argc, char *argv[]) {
 
     int ret_val = 0;
     int equal_counter = 0;
+    int line = 1;
 
     if (argc < 3) {
         std::cerr << "Usage: ./your_program tokenize <filename>" << std::endl;
@@ -24,7 +25,7 @@ int main(int argc, char *argv[]) {
     if (command == "tokenize") {
         std::string file_contents = read_file_contents(argv[2]);
 	
-	for (std::size_t i = 0; i < file_contents.size(); ++i) {
+	for (std::size_t i = 0; i < file_contents.size(); i++) {
 		switch (file_contents[i]) { 
 			case '(': 
 				std::cout << "LEFT_PAREN ( null" << std::endl; break;
@@ -86,19 +87,25 @@ int main(int argc, char *argv[]) {
 					std::cout << "SLASH / null" << std::endl;
 				}
 				break;
+			case ' ':
+			case '\r':
+			case '\t': 
+				break;
+			case '\n':
+				line++;
+				break;
 			default:
-				std::cerr << "[line 1] Error: Unexpected character: " << file_contents[i] << std::endl;
+				std::cerr << "[line " << line << "] Error: Unexpected character: " << file_contents[i] << std::endl;
 				ret_val = 65;
 				break;
+			}
 		}
-	}
-	
-	std::cout << "EOF  null" << std::endl;
-	return ret_val;
-    } else {
-        std::cerr << "Unknown command: " << command << std::endl;
-        return 1;
-    }
+		std::cout << "EOF  null" << std::endl;
+		return ret_val;
+	    } else {
+		std::cerr << "Unknown command: " << command << std::endl;
+		return 1;
+	    }
 }
 
 std::string read_file_contents(const std::string& filename) {
