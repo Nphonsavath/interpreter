@@ -11,6 +11,8 @@ int main(int argc, char *argv[]) {
     std::cout << std::unitbuf;
     std::cerr << std::unitbuf;
 
+    bool isLexicalError = false;
+
     if (argc < 3) {
         std::cerr << "Usage: ./your_program tokenize <filename>" << std::endl;
         return 1;
@@ -24,10 +26,28 @@ int main(int argc, char *argv[]) {
 	for (auto c : file_contents) {
 		switch (c) { 
 			case '(': 
-				std::cout << "LEFT_PAREN ( null" << std::endl;
-				break;
+				std::cout << "LEFT_PAREN ( null" << std::endl; break;
 			case ')': 
-				std::cout << "RIGHT_PAREN ) null" << std::endl;
+				std::cout << "RIGHT_PAREN ) null" << std::endl; break;
+			case '{':
+				std::cout << "LEFT_BRACE { null" << std::endl; break;
+			case '}':
+				std::cout << "RIGHT_BRACE } null" << std::endl; break;
+			case '*':
+				std::cout << "STAR * null" << std::endl; break;
+			case '.':
+				std::cout << "DOT . null" << std::endl; break;
+			case ',':
+				std::cout << "COMMA , null" << std::endl; break;
+			case '+':
+				std::cout << "PLUS + null" << std::endl; break;
+			case '-':
+				std::cout << "MINUS - null" << std::endl; break;
+			case ';':
+				std::cout << "SEMICOLON ; null" << std::endl; break;
+			default:
+				std::cerr << "[line 1] Error: Unexpected character: " << c << std::endl;
+				isLexicalError = true;
 				break;
 		}
 	}
@@ -39,7 +59,11 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    return 0;
+    if (isLexicalError) {
+	exit(65);
+    } else {
+    	return 0;
+    }
 }
 
 std::string read_file_contents(const std::string& filename) {
