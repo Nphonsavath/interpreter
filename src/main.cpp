@@ -20,7 +20,13 @@ int main(int argc, char *argv[]) {
 
     if (command == "tokenize") {
         std::string file_contents = read_file_contents(argv[2]);
-    
+	
+	for (auto c : file_contents) {
+		switch (c) { 
+			case '(': std::cout << "LEFT_PAREN ( null" << std::endl;
+			case ')': std::cout << "RIGHT_PAREN ) null" << std::endl;
+		}
+	}
 	
 
     } else {
