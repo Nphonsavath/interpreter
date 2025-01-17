@@ -11,7 +11,8 @@ int main(int argc, char *argv[]) {
     std::cout << std::unitbuf;
     std::cerr << std::unitbuf;
 
-    bool isLexicalError = false;
+    int ret_val = 0;
+    int equal_counter = 0;
 
     if (argc < 3) {
         std::cerr << "Usage: ./your_program tokenize <filename>" << std::endl;
@@ -23,8 +24,8 @@ int main(int argc, char *argv[]) {
     if (command == "tokenize") {
         std::string file_contents = read_file_contents(argv[2]);
 	
-	for (auto c : file_contents) {
-		switch (c) { 
+	for (std::size_t i = 0; i < file_contents.size(); ++i) {
+		switch (file_contents[i]) { 
 			case '(': 
 				std::cout << "LEFT_PAREN ( null" << std::endl; break;
 			case ')': 
@@ -45,24 +46,58 @@ int main(int argc, char *argv[]) {
 				std::cout << "MINUS - null" << std::endl; break;
 			case ';':
 				std::cout << "SEMICOLON ; null" << std::endl; break;
+			case '=':
+				if (file_contents[i+1] == '=') {
+					std::cout << "EQUAL_EQUAL == null" << std::endl;
+					i += 1;
+				} else {
+					std::cout << "EQUAL = null" << std::endl;
+				}
+				break;
+			case '!':
+				if (file_contents[i+1] == '=') {
+					std::cout << "BANG_EQUAL != null" << std::endl;
+					i += 1;
+				} else {
+					std::cout << "BANG ! null" << std::endl;
+				}
+				break;
+			case '<':
+				if (file_contents[i+1] == '=') {
+					std::cout << "LESS_EQUAL <= null" << std::endl;
+					i += 1;
+				} else {
+					std::cout << "LESS < null" << std::endl;
+				}
+				break;
+			case '>':
+				if (file_contents[i+1] == '=') {
+					std::cout << "GREATER_EQUAL >= null" << std::endl;
+					i += 1;
+				} else {
+					std::cout << "GREATER > null" << std::endl;
+				}
+				break;
+			case '/':
+				if (file_contents[i+1] == '/') {
+					std::cout << "EOF  null" << std::endl;
+					return ret_val;
+				} else {
+					std::cout << "SLASH / null" << std::endl;
+				}
+				break;
 			default:
-				std::cerr << "[line 1] Error: Unexpected character: " << c << std::endl;
-				isLexicalError = true;
+				std::cerr << "[line 1] Error: Unexpected character: " << file_contents[i] << std::endl;
+				ret_val = 65;
 				break;
 		}
 	}
 	
 	std::cout << "EOF  null" << std::endl;
-
+	return ret_val;
     } else {
         std::cerr << "Unknown command: " << command << std::endl;
         return 1;
-    }
-
-    if (isLexicalError) {
-	exit(65);
-    } else {
-    	return 0;
     }
 }
 
