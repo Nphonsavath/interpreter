@@ -81,8 +81,10 @@ int main(int argc, char *argv[]) {
 				break;
 			case '/':
 				if (file_contents[i+1] == '/') {
-					std::cout << "EOF  null" << std::endl;
-					return ret_val;
+					//i += 1;
+					while (i < file_contents.size() && file_contents[i+1] != '\n') {
+						i++;
+					}
 				} else {
 					std::cout << "SLASH / null" << std::endl;
 				}
@@ -94,6 +96,23 @@ int main(int argc, char *argv[]) {
 			case '\n':
 				line++;
 				break;
+			case '\"':
+				{
+				std::string result = "";
+				while (i < file_contents.size() && file_contents[i+1] != '\"') {
+					result += file_contents[i+1];
+					i += 1;
+				}
+				if (i == file_contents.size()) { 
+					std::cerr << "[line " << line << "] Error: Unterminated string." << std::endl;
+					ret_val = 65;
+				} else {
+					i += 1;
+					std::cout << "STRING \"" << result << "\" " << result << std::endl;
+				}
+				//i += 1;
+				break;
+				}
 			default:
 				std::cerr << "[line " << line << "] Error: Unexpected character: " << file_contents[i] << std::endl;
 				ret_val = 65;
