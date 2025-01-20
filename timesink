@@ -2,3 +2,4 @@ Jan 14 2025 researching project .5 hr
 Jan 15 2025 starting project 2 hr
 Jan 16 2025 scanning implementation (whitespace and some operators) 3hr
 Jan 17 2025 scanning implementation (multi-line errors, string literals) 1.5 hr
+Jan 19 2025 scanning implementation (number literals, had issues with accidently parsing over a character such as + in 15+25) 3 hr
