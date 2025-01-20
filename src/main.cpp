@@ -4,6 +4,7 @@
 #include <sstream>
 #include <cmath>
 #include <string>
+#include <iomanip>
 
 std::string read_file_contents(const std::string& filename);
 int isDigit(int character);
@@ -48,9 +49,11 @@ int main(int argc, char *argv[]) {
 				if (std::fmod(number, 1.0) == 0.0) {
 					std::cout << "NUMBER " << result << " " << resultFloat << std::endl;
 				} else {
-					std::cout << "NUMBER " << result << " " << result << std::endl;
+					std::cout << "NUMBER " << result << " " << std::fixed << std::setprecision(1) << result << std::endl;
+					//std::cout << "NUMBER " << result << " " << result << std::endl;
 				}
 			}
+			i -= 1;
 		} else { 
 			switch (file_contents[i]) { 
 				case '(': 
